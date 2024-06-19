@@ -1,3 +1,4 @@
+import { fetchInvoicesPages } from '@/app/lib/data';
 import Pagination from '@/app/ui/invoices/pagination';
 import Search from '@/app/ui/search';
 import Table from '@/app/ui/invoices/table';
@@ -5,8 +6,20 @@ import { CreateInvoice } from '@/app/ui/invoices/buttons';
 import { lusitana } from '@/app/ui/fonts';
 import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
+//Page components accept a prop called searchParams, so you can pass the current URL params to the <Table> component.
  
-export default async function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+    page?: string;
+  };
+}) {
+  const query = searchParams?.query || '';
+  const currentPage = Number(searchParams?.page) || 1;
+  const totalPages = await fetchInvoicesPages(query);//returns the total number of pages based on the search query
+ 
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
@@ -16,11 +29,11 @@ export default async function Page() {
         <Search placeholder="Search invoices..." /> {/*allows users to search for specific invoices.*/} allows users to search for specific invoices.
         <CreateInvoice />
       </div>
-      {/*  <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
+     <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
         <Table query={query} currentPage={currentPage} /> 
-      </Suspense> */}
+      </Suspense> 
       <div className="mt-5 flex w-full justify-center">
-        {/* <Pagination totalPages={totalPages} /> */}  {/**allows users to navigate between pages of invoices. */}
+        <Pagination totalPages={totalPages} />   {/**allows users to navigate between pages of invoices. */}
       </div>
     </div>
   );
