@@ -7,10 +7,13 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
+import { createInvoice } from '@/app/lib/actions';
 
+//<Form> component
 export default function Form({ customers }: { customers: CustomerField[] }) {
   return (
-    <form>
+  
+    <form action={createInvoice}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
@@ -18,7 +21,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
             Choose customer
           </label>
           <div className="relative">
-            <select
+            <select //  <select> (dropdown) element with a list of customers
               id="customer"
               name="customerId"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
@@ -44,7 +47,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
-              <input
+              <input // element for the amount with type="number"
                 id="amount"
                 name="amount"
                 type="number"
@@ -65,7 +68,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
           <div className="rounded-md border border-gray-200 bg-white px-[14px] py-3">
             <div className="flex gap-4">
               <div className="flex items-center">
-                <input
+                <input //<input> element for the status with type="radio"
                   id="pending"
                   name="status"
                   type="radio"
@@ -80,7 +83,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
                 </label>
               </div>
               <div className="flex items-center">
-                <input
+                <input //<input> elements for the status with type="radio"
                   id="paid"
                   name="status"
                   type="radio"
@@ -105,7 +108,8 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
         >
           Cancel
         </Link>
-        <Button type="submit">Create Invoice</Button>
+        {/**button with type="submit" */}
+        <Button type="submit">Create Invoice</Button> 
       </div>
     </form>
   );
